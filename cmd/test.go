@@ -6,22 +6,36 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
+	"github.com/asciifaceman/betwixt/betwixt"
 	"github.com/spf13/cobra"
 )
 
 // testCmd represents the test command
 var testCmd = &cobra.Command{
 	Use:   "test",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Launch a test cycle from scratch",
+	Long: `test launches a betwixt run from scratch,
+starting with a clean that destroys any current instance
+tied to the local project, then launching it fresh, running
+the defined privisioner, and applying tests at the end.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("test called")
+		b, err := betwixt.Bootstrap()
+		if err != nil {
+			fmt.Printf("Failed to start betwixt: %v\n", err)
+			os.Exit(1)
+		}
+
+		b.Lifecycle.Launch()
+
+		// read in global and local config
+		// destroy local ansible cache (downloaded roles)
+		// destroy remote instance if exists
+		// create remote instance
+		// run ansible against instance
+		// run goss tests
+		// report
 	},
 }
 

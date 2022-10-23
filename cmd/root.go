@@ -24,13 +24,11 @@ var (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "betwixt",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Applied cloud test flow for configuration management",
+	Long: `Betwixt is a CLI application that allows one
+to launch ec2 instances, apply configuration management,
+and then run tests to support the development flow of automation
+with a single utility purpose built to this workflow.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -57,4 +55,5 @@ func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.AddGroup(workflowGroup)
 	rootCmd.AddGroup(supportGroup)
+
 }

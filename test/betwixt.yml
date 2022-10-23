@@ -1,0 +1,10 @@
+---
+- name: Sample basic task to run against betwixt cycle
+  hosts: all
+
+  tasks:
+    - name: Install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: latest
+        update_cache: yes
