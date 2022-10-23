@@ -6,9 +6,7 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
-	"github.com/asciifaceman/betwixt/betwixt/conf"
 	"github.com/spf13/cobra"
 )
 
@@ -23,30 +21,33 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		var editor string
-		fmt.Println("Preferred editor: This should be something in your PATH to open config files with (ex. code, vim)")
-		fmt.Print("Editor: ")
-		fmt.Scanln(&editor)
+		fmt.Println("globalinit called")
+		/*
+			var editor string
+			fmt.Println("Preferred editor: This should be something in your PATH to open config files with (ex. code, vim)")
+			fmt.Print("Editor: ")
+			fmt.Scanln(&editor)
 
-		sampleTag := &conf.AwsTag{
-			Key:   "managedBy",
-			Value: "betwixt",
-		}
+			sampleTag := &conf.AwsTag{
+				Key:   "managedBy",
+				Value: "betwixt",
+			}
 
-		g := &conf.Global{
-			Editor: editor,
-			AWS: &conf.AwsConfiguration{
-				Tags: []*conf.AwsTag{
-					sampleTag,
+			g := &conf.Global{
+				Editor: editor,
+				AWS: &conf.AwsConfiguration{
+					Tags: []*conf.AwsTag{
+						sampleTag,
+					},
+					SecurityGroups: make([]string, 0),
 				},
-				SecurityGroups: make([]string, 0),
-			},
-		}
-		err := g.Init()
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
+			}
+			err := g.Init()
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+		*/
 	},
 }
 
