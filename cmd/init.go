@@ -5,8 +5,7 @@ Copyright © 2022 Charles
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/asciifaceman/betwixt/betwixt/csl"
 	"github.com/spf13/cobra"
 )
 
@@ -21,13 +20,8 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Project init called")
-		/*
-			err := conf.InitLocal()
-			if err != nil {
-				fmt.Println(err)
-			}
-		*/
+		csl.Info("test")
+
 	},
 }
 

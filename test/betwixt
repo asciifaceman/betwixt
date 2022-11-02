@@ -1,4 +1,0 @@
-{
-  "provisioner": "ansible",
-  "lifecycle": "aws"
-}

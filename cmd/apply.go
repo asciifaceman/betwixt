@@ -10,6 +10,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type TestA struct {
+	Thing  string
+	Thing3 []string
+	Thing4 []*TestB
+}
+
+type TestB struct {
+	Name string
+}
+
 // applyCmd represents the apply command
 var applyCmd = &cobra.Command{
 	Use:   "apply",
@@ -24,6 +34,7 @@ to quickly create a Cobra application.`,
 		fmt.Println("apply called")
 		// run ansible against remote host
 		// run goss tests against remote host
+
 	},
 }
 
