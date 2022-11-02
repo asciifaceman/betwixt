@@ -19,8 +19,37 @@ var (
 // betwixt which contains sane defaults to be overriden
 // at the project level, as well as some handys
 type Global struct {
-	Editor string            `json:"editor"`
-	AWS    *AwsConfiguration `json:"aws"`
+	Editor  string                `json:"editor"`
+	AWS     *AwsConfiguration     `json:"aws"`
+	Ansible *AnsibleConfiguration `json:"ansible"`
+}
+
+func (g *Global) Init() error {
+	err := os.MkdirAll(configDir, 0755)
+	if err != nil {
+		return err
+	}
+
+	// TODO: Should allow user to edit CHANGEME MVP config for each
+	// at init time
+
+	pathEditor := os.Getenv("EDITOR")
+	// TODO: Need a different option prompt for this that can support os.Getenv default
+	editor := csl.OptionsPrompt("Which editor do you prefer?", []string{pathEditor, "vim", "nano"})
+	g.Editor = editor
+
+	prov := csl.OptionsPrompt("What is your default provisioner?", []string{"ansible"})
+	if prov == "ansible" {
+
+		g.Ansible = &AnsibleConfiguration{}
+	}
+
+	life := csl.OptionsPrompt("What is your default lifecycle?", []string{"aws"})
+	if life == "aws" {
+		g.AWS = &AwsConfiguration{}
+	}
+
+	return g.Write()
 }
 
 func (g *Global) Open() error {

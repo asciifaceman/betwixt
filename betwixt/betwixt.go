@@ -3,6 +3,8 @@ package betwixt
 import (
 	"os"
 
+	"github.com/asciifaceman/betwixt/betwixt/conf"
+	"github.com/asciifaceman/betwixt/betwixt/csl"
 	"github.com/asciifaceman/betwixt/betwixt/lifecycle"
 	"github.com/asciifaceman/betwixt/betwixt/state"
 )
@@ -35,6 +37,22 @@ func (b *Betwixt) Bootstrap() error {
 		return err
 	}
 	b.ProjectDirectory = wd
+
+	// Read in global config
+	global := &conf.Global{}
+	err = global.Read()
+	if err != nil {
+		csl.Help("Did you run [ betwixt config init ] to create glboal config?")
+		return err
+	}
+
+	// Read in local config
+	local := conf.NewLocal(wd)
+	err = local.Read()
+	if err != nil {
+		csl.Help("Did you run [ betwixt init ] in this directory?")
+		return err
+	}
 
 	return nil
 }

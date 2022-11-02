@@ -5,8 +5,10 @@ Copyright © 2022 Charles
 package cmd
 
 import (
-	"fmt"
+	"os"
 
+	"github.com/asciifaceman/betwixt/betwixt"
+	"github.com/asciifaceman/betwixt/betwixt/csl"
 	"github.com/spf13/cobra"
 )
 
@@ -19,7 +21,15 @@ starting with a clean that destroys any current instance
 tied to the local project, then launching it fresh, running
 the defined privisioner, and applying tests at the end.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Test cycle called")
+		csl.Note("Starting test cycle...")
+
+		b, err := betwixt.New()
+		if err != nil {
+			csl.Error(err.Error())
+			os.Exit(1)
+		}
+		csl.Info(b.ProjectDirectory)
+
 		/*
 			b, err := betwixt.Bootstrap()
 			if err != nil {

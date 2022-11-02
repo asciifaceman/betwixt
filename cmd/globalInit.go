@@ -5,8 +5,10 @@ Copyright © 2022 Charles
 package cmd
 
 import (
-	"fmt"
+	"os"
 
+	"github.com/asciifaceman/betwixt/betwixt/conf"
+	"github.com/asciifaceman/betwixt/betwixt/csl"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +23,13 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("globalinit called")
+		csl.Note("Initializing global config...")
+		g := conf.Global{}
+		err := g.Init()
+		if err != nil {
+			csl.Error(err.Error())
+			os.Exit(1)
+		}
 		/*
 			var editor string
 			fmt.Println("Preferred editor: This should be something in your PATH to open config files with (ex. code, vim)")
