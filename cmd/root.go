@@ -25,7 +25,15 @@ var (
 var rootCmd = &cobra.Command{
 	Use:   "betwixt",
 	Short: "Applied cloud test flow for configuration management",
-	Long: `Betwixt is a CLI application that allows one
+	Long: `
+______        _              _        _    
+| ___ \      | |            (_)      | |   
+| |_/ /  ___ | |_ __      __ _ __  __| |_  
+| ___ \ / _ \| __|\ \ /\ / /| |\ \/ /| __| 
+| |_/ /|  __/| |_  \ V  V / | | >  < | |_  
+\____/  \___| \__|  \_/\_/  |_|/_/\_\ \__| 
+
+	Betwixt is a CLI application that allows one
 to launch ec2 instances, apply configuration management,
 and then run tests to support the development flow of automation
 with a single utility purpose built to this workflow.`,

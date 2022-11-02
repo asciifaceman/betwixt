@@ -33,12 +33,6 @@ type Local struct {
 func (l *Local) Init() error {
 	l.Provisioner = csl.OptionsPrompt("Which provisioner will this project use?", provisioners)
 	l.Lifecycle = csl.OptionsPrompt("Which Lifecycle will this project use?", lifecycles)
-
-	switch l.Lifecycle {
-	case "aws":
-		l.AWS = NewAWSConfig()
-	default:
-	}
 	return l.Write()
 }
 

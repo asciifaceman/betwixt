@@ -4,6 +4,17 @@
 # Portability
 Currently betwixt is not portable and targets linux usage only. I've no immediate plans to change that however it should work in WSL on windows.
 
+# Usage
+
+Examples are given for AWS & Ansible.
+
+### Local Config Overrides
+
+To override a local project you would add fields to the config such as
+
+```
+```
+
 # Why
 During the development of Ansible roles I often used the workflow of having a Vagrantfile that launched a simple t2.micro instance to run the ansible against for testing. Paired with a Makefile and simply playbook, it was wrapped up as a simple `make test` which:
 
