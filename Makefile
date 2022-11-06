@@ -57,13 +57,13 @@ help: banner				##@miscellaneous Show this help
 
 banner:						##@miscellaneous Display your swag banner
 	@echo -e ""
-	@echo -e "$(YELLOW)     ____  ___    _   ___   ____________  $(NC)"
-	@echo -e "$(YELLOW)    / __ )/   |  / | / / | / / ____/ __ \ $(NC)"
-	@echo -e "$(YELLOW)   / __  / /| | /  |/ /  |/ / __/ / /_/ / $(NC)"
-	@echo -e "$(YELLOW)  / /_/ / ___ |/ /|  / /|  / /___/ _, _/  $(NC)"
-	@echo -e "$(YELLOW) /_____/_/  |_/_/ |_/_/ |_/_____/_/ |_|   $(NC)"
+	@echo -e "$(GREEN) ______        _              _        _    $(NC)"
+	@echo -e "$(GREEN) | ___ \      | |            (_)      | |   $(NC)"
+	@echo -e "$(YELLOW) | |_/ /  ___ | |_ __      __ _ __  __| |_  $(NC)"
+	@echo -e "$(YELLOW) | ___ \ / _ \| __|\ \ /\ / /| |\ \/ /| __| $(NC)"
+	@echo -e "$(RED) | |_/ /|  __/| |_  \ V  V / | | >  < | |_  $(NC)"
+	@echo -e "$(RED) \____/  \___| \__|  \_/\_/  |_|/_/\_\ \__| $(NC)"
 	@echo -e ""
-
 
 ##### WORKFLOW #####
 
@@ -73,11 +73,17 @@ clean:
 	go clean
 	rm -rf target/
 
-build:
+build: ##@workflow build and save to target/
 	go build -o target/
 
-deploy-local:
+deploy-local: ##@workflow install to /usr/local/bin locally
 	@echo -e "Installing to /usr/local/bin"
 	sudo mv target/betwixt /usr/local/bin/betwixt
 
-cycle-local: clean build deploy-local
+cycle-local: clean build deploy-local ##@workflow build and deploy locally
+
+
+
+
+
+

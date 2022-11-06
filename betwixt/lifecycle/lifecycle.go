@@ -52,12 +52,3 @@ type Lifecycle interface {
 	Launch() error
 	//Destroy() error
 }
-
-func NewLifecycle(opt Lifecycler) Lifecycle {
-	switch opt {
-	case None:
-		return nil
-	default:
-		return nil
-	}
-}

@@ -33,6 +33,14 @@ func Info(message string, a ...interface{}) {
 
 }
 
+func Note(message string) {
+	color.Yellow(message)
+}
+
+func Help(message string) {
+	color.Cyan(message)
+}
+
 func Error(message string, a ...interface{}) {
 	if a != nil {
 		color.Red(message, a)
