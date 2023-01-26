@@ -13,6 +13,14 @@ type AnsibleConfiguration struct {
 	VaultPasswordFile string `json:"vaultPasswordFile,omitempty"`
 }
 
+func ChangeMeAnsibleConfiguration() *AnsibleConfiguration {
+	a := &AnsibleConfiguration{
+		VaultPasswordFile: "changeme",
+	}
+
+	return a
+}
+
 func (a *AnsibleConfiguration) Init(path string, editor string) error {
 	csl.Info("Do you wish to edit the ansible configuration before saving?")
 	edit := csl.YesNoPrompt()

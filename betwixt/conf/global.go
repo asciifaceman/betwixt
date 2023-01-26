@@ -28,49 +28,39 @@ func (g *Global) GetFilename() string {
 	return configFile
 }
 
+// Init creates a new global configuration with defaults that require editing
+// to bootstrap it and writes it to disk
 func (g *Global) Init() error {
 	err := os.MkdirAll(configDir, 0755)
 	if err != nil {
 		return err
 	}
 
+	editors := []string{"vim", "nano"}
 	pathEditor := os.Getenv("EDITOR")
+	if pathEditor != "" {
+		editors = append([]string{pathEditor}, editors...)
+	}
 	// TODO: Need a different option prompt for this that can support os.Getenv default
-	editor := csl.OptionsPrompt("Which editor do you prefer?", []string{pathEditor, "vim", "nano"})
+	editor := csl.OptionsPrompt("Which editor do you prefer?", editors)
 	g.Editor = editor
 
 	prov := csl.OptionsPrompt("What is your default provisioner?", []string{"ansible"})
 	if prov == "ansible" {
-		g.Ansible = &AnsibleConfiguration{}
-		csl.Info("Do you want CHANGEME defaults written to the ansible configuration?")
-		editInPlace := csl.YesNoPrompt()
-		if editInPlace {
-			g.Ansible.VaultPasswordFile = "changeme"
-		}
+		g.Ansible = ChangeMeAnsibleConfiguration()
 	}
 
 	life := csl.OptionsPrompt("What is your default lifecycle?", []string{"aws"})
 	if life == "aws" {
-		g.AWS = &AwsConfiguration{}
-		csl.Info("Do you want CHANGEME defaults written to the AWS configuration?")
-		editInPlace := csl.YesNoPrompt()
-		if editInPlace {
-			//var required = "REQUIRED"
-			var changeme = "CHANGEME"
-			g.AWS.InstanceType = changeme
-			g.AWS.KeypairName = changeme
-			g.AWS.SubnetID = changeme
-			g.AWS.Tags = append(g.AWS.Tags, &AwsTag{
-				Key:   changeme,
-				Value: changeme,
-			})
-			g.AWS.IamInstanceProfile = changeme
-			g.AWS.Region = changeme
-			g.AWS.AMI = changeme
-			g.AWS.SecurityGroups = []string{changeme}
-			g.AWS.SSHUsername = changeme
-			g.AWS.SSHPrivateKeyPath = changeme
-		}
+		g.AWS = ChangeMeAWSConfiguration()
+	}
+
+	g.Write()
+
+	csl.Info("Do you want to edit the global config now?")
+	editConfigInPlace := csl.YesNoPrompt()
+	if editConfigInPlace {
+		csl.Open(g.Editor, configFile)
 	}
 
 	return g.Write()
