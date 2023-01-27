@@ -28,7 +28,16 @@ the defined privisioner, and applying tests at the end.`,
 			csl.Error(err.Error())
 			os.Exit(1)
 		}
-		csl.Info(b.ProjectDirectory)
+
+		StateID := b.State.GetID()
+		if StateID == "" {
+			csl.Note("No remote instances exist...")
+			err := b.Lifecycle.Launch()
+			if err != nil {
+				csl.Error(err.Error())
+				csl.Info("We really should now loop with a check for remote host state with a failout")
+			}
+		}
 
 		/*
 			b, err := betwixt.Bootstrap()

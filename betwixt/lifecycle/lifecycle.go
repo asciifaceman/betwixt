@@ -35,14 +35,16 @@ func (l Lifecycler) StateManager(wd string) (state.State, error) {
 	}
 }
 
-func (l Lifecycler) New() Lifecycle {
+func (l Lifecycler) New(conf interface{}) Lifecycle {
 	switch l {
 	case None:
 		return nil
+	case AWSLifecycle:
+		a := &AWSRemote{}
+		a.LoadConfig(conf)
+		return a
 	default:
 		return nil
-	case AWSLifecycle:
-		return &AWSRemote{}
 	}
 }
 

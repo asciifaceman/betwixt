@@ -1,3 +1,4 @@
+// betwixt is the pillar struct of the infrastructure automation test suite
 package betwixt
 
 import (
@@ -17,8 +18,8 @@ func New() (*Betwixt, error) {
 
 type Betwixt struct {
 	ProjectDirectory string
-	State            *state.State
-	Lifecycle        *lifecycle.Lifecycle
+	State            state.State
+	Lifecycle        lifecycle.Lifecycle
 }
 
 // Launch launches a betwixt instance based on the booted
@@ -47,12 +48,25 @@ func (b *Betwixt) Bootstrap() error {
 	}
 
 	// Read in local config
-	local := conf.NewLocal(wd)
+	local := conf.NewLocal(b.ProjectDirectory)
 	err = local.Read()
 	if err != nil {
 		csl.Help("Did you run [ betwixt init ] in this directory?")
 		return err
 	}
+
+	// Create Lifecycle and Provisioner and merge respective configs
+	lc := lifecycle.StringToLifecycle(local.Lifecycle)
+	lifecycle := lc.New(local.AWS)
+	b.Lifecycle = lifecycle
+
+	state, err := lc.StateManager(b.ProjectDirectory)
+	if err != nil {
+		return err
+	}
+	b.State = state
+
+	// Return configured for task assignment
 
 	return nil
 }

@@ -13,6 +13,8 @@ type AnsibleConfiguration struct {
 	VaultPasswordFile string `json:"vaultPasswordFile,omitempty"`
 }
 
+// should add ansible run tags
+
 func ChangeMeAnsibleConfiguration() *AnsibleConfiguration {
 	a := &AnsibleConfiguration{
 		VaultPasswordFile: "changeme",
