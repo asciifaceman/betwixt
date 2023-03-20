@@ -19,8 +19,51 @@ var (
 // betwixt which contains sane defaults to be overriden
 // at the project level, as well as some handys
 type Global struct {
-	Editor string            `json:"editor"`
-	AWS    *AwsConfiguration `json:"aws"`
+	Editor  string                `json:"editor"`
+	AWS     *AwsConfiguration     `json:"aws"`
+	Ansible *AnsibleConfiguration `json:"ansible"`
+}
+
+func (g *Global) GetFilename() string {
+	return configFile
+}
+
+// Init creates a new global configuration with defaults that require editing
+// to bootstrap it and writes it to disk
+func (g *Global) Init() error {
+	err := os.MkdirAll(configDir, 0755)
+	if err != nil {
+		return err
+	}
+
+	editors := []string{"vim", "nano"}
+	pathEditor := os.Getenv("EDITOR")
+	if pathEditor != "" {
+		editors = append([]string{pathEditor}, editors...)
+	}
+	// TODO: Need a different option prompt for this that can support os.Getenv default
+	editor := csl.OptionsPrompt("Which editor do you prefer?", editors)
+	g.Editor = editor
+
+	prov := csl.OptionsPrompt("What is your default provisioner?", []string{"ansible"})
+	if prov == "ansible" {
+		g.Ansible = ChangeMeAnsibleConfiguration()
+	}
+
+	life := csl.OptionsPrompt("What is your default lifecycle?", []string{"aws"})
+	if life == "aws" {
+		g.AWS = ChangeMeAWSConfiguration()
+	}
+
+	g.Write()
+
+	csl.Info("Do you want to edit the global config now?")
+	editConfigInPlace := csl.YesNoPrompt()
+	if editConfigInPlace {
+		csl.Open(g.Editor, configFile)
+	}
+
+	return g.Write()
 }
 
 func (g *Global) Open() error {

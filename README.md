@@ -1,8 +1,23 @@
 # betwixt
- A tool for testing configuration management against remote resources ad-hoc
+A tool for launching and managing ad-hoc intances to test automation and development projects with a quick lifecycle. The defining example would be testing ansible roles against quickly made and destroyed instances.
+
+Betwixt utilizes a global config of sane defaults to keep per-project configuration minimal, at an override level, reducing the need to update every project for minor changes like AMI and reduce repitition.
+
+Betwixt focuses on this development cycle workflow and is not intended for long term deployments or infrastructure, and is only focused on creating short lived ad-hoc instances for test and dev.
 
 # Portability
 Currently betwixt is not portable and targets linux usage only. I've no immediate plans to change that however it should work in WSL on windows.
+
+# Usage
+
+Examples are given for AWS & Ansible.
+
+### Local Config Overrides
+
+To override a local project you would add fields to the config such as
+
+```
+```
 
 # Why
 During the development of Ansible roles I often used the workflow of having a Vagrantfile that launched a simple t2.micro instance to run the ansible against for testing. Paired with a Makefile and simply playbook, it was wrapped up as a simple `make test` which:

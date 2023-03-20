@@ -18,9 +18,9 @@ type AwsState struct {
 
 // Init sets up the state handler
 func (a *AwsState) Init(wd string) error {
-	a.ProjectDirectory = wd
-	err := os.Mkdir(a.ProjectDirectory, 0755)
-	return err
+	a.ProjectDirectory = fmt.Sprintf("%s/betwixt", wd)
+	os.Mkdir(a.ProjectDirectory, 0755)
+	return nil
 }
 
 // Load reads in an existing state file for AWS

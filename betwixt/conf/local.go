@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 
 	"github.com/asciifaceman/betwixt/betwixt/csl"
 )
@@ -16,11 +17,29 @@ var (
 
 func NewLocal(path string) *Local {
 	l := &Local{
-		Filename: fmt.Sprintf("%s/betwixt", path),
+		Filename: fmt.Sprintf("%s/betwixtfile", path),
 	}
 
 	return l
 }
+
+// Need to implement an "architecture" parameter that allows layout definition
+/*** ex.
+"architecture": {
+  "a": {
+    "count": 1,
+    "variables": {
+      "target": "read"
+    }
+  },
+  "b": {
+    "count": 1,
+    "variables": {
+      "target": "write"
+    }
+  }
+}
+**/
 
 // Local represents a project-local configuration
 type Local struct {
@@ -34,11 +53,19 @@ func (l *Local) Init() error {
 	l.Provisioner = csl.OptionsPrompt("Which provisioner will this project use?", provisioners)
 	l.Lifecycle = csl.OptionsPrompt("Which Lifecycle will this project use?", lifecycles)
 
-	switch l.Lifecycle {
-	case "aws":
-		l.AWS = NewAWSConfig()
-	default:
+	if l.Lifecycle == "aws" {
+		wd, err := os.Getwd()
+		if err != nil {
+			return err
+		}
+		dname := strings.Split(wd, "/")
+		l.AWS = &AwsConfiguration{}
+		l.AWS.Tags = append(l.AWS.Tags, &AwsTag{
+			Key:   "Name",
+			Value: fmt.Sprintf("%s-betwixt", dname[len(dname)-1]),
+		})
 	}
+
 	return l.Write()
 }
 

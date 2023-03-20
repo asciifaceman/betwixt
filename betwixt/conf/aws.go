@@ -24,6 +24,26 @@ type AwsConfiguration struct {
 	//BlockDeviceMapping
 }
 
+func ChangeMeAWSConfiguration() *AwsConfiguration {
+	a := &AwsConfiguration{}
+	var changeme = "CHANGEME"
+	a.InstanceType = changeme
+	a.KeypairName = changeme
+	a.SubnetID = changeme
+	a.IamInstanceProfile = changeme
+	a.Region = changeme
+	a.AMI = changeme
+	a.SecurityGroups = []string{changeme}
+	a.SSHUsername = changeme
+	a.SSHPrivateKeyPath = changeme
+	a.Tags = make([]*AwsTag, 0)
+	a.Tags = append(a.Tags, &AwsTag{
+		Key:   "betwixt",
+		Value: "managed",
+	})
+	return a
+}
+
 func NewAWSConfig() *AwsConfiguration {
 	a := &AwsConfiguration{}
 	a.InstanceType = "t2.micro"
